@@ -9,7 +9,7 @@ const AddComment = ({ docId, comments, setComments, commentInput }) => {
   const { user } = useUser();
   const handleSubmitComment = (e) => {
     e.preventDefault();
-    setComments([{ displayName: user.username, comment }, ...comments]);
+    setComments([...comments, { displayName: user.username, comment }]);
     setComment("");
     return firebase
       .firestore()

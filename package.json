@@ -22,8 +22,8 @@
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/app.css --watch",
     "react-scripts:start": "sleep 5 && react-scripts start",
     "start": "craco start",
-    "build": "carco build",
-    "test": "carco test",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
