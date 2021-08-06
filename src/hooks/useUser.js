@@ -7,10 +7,10 @@ const useUser = () => {
   const user = useContext(UserContext);
   useEffect(() => {
     async function getUserObjByUserId() {
-      const [response] = await getUserByUserId(user.uid);
+      const [response] = await getUserByUserId(user.userId);
       setActiveUser(response);
     }
-    if (user?.uid) getUserObjByUserId();
+    if (user?.userId) getUserObjByUserId();
   }, [user]);
   return { user: activeUser };
 };

@@ -3,7 +3,7 @@ module.exports = {
     removeDeprecatedGapUtilities: true,
   },
   purge: {
-    content: ["./src/**/*.js", "./src/**/**/*.js"],
+    content: ["./src/**/*.{js,jsx}", "./src/**/**/*.{js,jsx}"],
   },
   theme: {
     fill: (theme) => ({
@@ -30,6 +30,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      opacity: ["disabled"],
       display: ["group-hover"],
     },
   },

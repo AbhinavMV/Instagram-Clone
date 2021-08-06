@@ -4,7 +4,7 @@ import { getPhotos } from "../services/firebase";
 import useUser from "./useUser";
 
 const usePhotos = () => {
-  const [photos, setPhotos] = useState([]);
+  const [photos, setPhotos] = useState(null);
   const { user } = useUser();
   useEffect(() => {
     async function getTimelinePhotos() {
@@ -16,7 +16,8 @@ const usePhotos = () => {
         setPhotos(followedUserPhotos);
       }
     }
-    if (user.userId) getTimelinePhotos();
+
+    if (user?.userId) getTimelinePhotos();
   }, [user]);
 
   return { photos };

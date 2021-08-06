@@ -3,29 +3,32 @@ import { Link } from "react-router-dom";
 
 import { DASHBOARD, LOGIN, SIGN_UP } from "../constants/routes";
 import FirebaseContext from "../context/firebase";
-import useUser from "../hooks/useUser";
+import UserContext from "../context/user";
 
 const Header = () => {
   const { firebase } = useContext(FirebaseContext);
-  const { user } = useUser();
+  const user = useContext(UserContext);
+
   return (
-    <header className="h-16 bg-white border-b border-gray-primary mb-8">
+    <header className="h-16 bg-white border-b border-gray-primary mb-8 px-3">
       <div className="container mx-auto max-w-screen-md h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-base text-center flex items-center align-middle cursor-pointer">
-            <h1 className="flex justify-center w-full">
+            <h1 className="flex justify-center max-w-md">
               <Link to={DASHBOARD} aria-label="Instagram Logo">
                 <img src="/images/logo.png" alt="Instagram" className="mt-2 w-6/12" />
               </Link>
             </h1>
           </div>
           <div className="text-gray-base text-center flex items-center align-middle">
-            {user ? (
+            {!user ? (
+              <p className="text-sm font-medium">Loading...</p>
+            ) : Object.keys(user).length > 0 ? (
               <>
                 <Link to={DASHBOARD} aria-label="Dashboard">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 mr-6 text-black-light cursor-pointer"
+                    className="w-7 h-7 mr-2 text-black-light cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -48,7 +51,7 @@ const Header = () => {
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 mr-6 text-black-light cursor-pointer"
+                    className="w-7 h-7 mr-2 text-black-light cursor-pointer"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -61,11 +64,12 @@ const Header = () => {
                     />
                   </svg>
                 </button>
+                {/* user image */}
                 <div className="flex items-center cursor-pointer">
                   <Link to={`/p/${user.username}`}>
                     {
                       <img
-                        className="rounded-full h-8 w-8 flex"
+                        className="rounded-full h-7 w-7 flex"
                         src={`/images/avatars/${user.username}.jpg`}
                         onError={(e) => {
                           e.target.onerror = null;

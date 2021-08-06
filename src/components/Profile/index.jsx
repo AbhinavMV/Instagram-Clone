@@ -32,7 +32,7 @@ const UserProfile = ({ user }) => {
   }, [user]);
 
   return Object.keys(profile).length > 0 ? (
-    <div>
+    <>
       <Header
         photosCount={photosCollection.length}
         profile={profile}
@@ -40,7 +40,7 @@ const UserProfile = ({ user }) => {
         setFollowerCount={dispatch}
       />
       <Photos photos={photosCollection} />
-    </div>
+    </>
   ) : null;
 };
 

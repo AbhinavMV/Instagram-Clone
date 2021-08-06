@@ -1,4 +1,5 @@
-import { firebase, FieldValue } from "../lib/firebase";
+import { firebase, FieldValue, storage } from "../lib/firebase";
+import shortid from "shortid";
 
 export async function doesUsernameExists(username) {
   const result = await firebase
@@ -103,4 +104,17 @@ export async function followToggle(
 ) {
   await updateLoggedInUserFollowingList(userDocId, profileUserId, isFollowingProfile);
   await updateFollowedUserFollowersList(profileDocId, userId, isFollowingProfile);
+}
+
+export async function uploadImageToFirebase(image) {
+  if (image) {
+    const storageRef = storage.ref();
+    const imageRef = storageRef.child(`${shortid.generate()}-${image.name}`);
+    imageRef.put(image).then((data) => {
+      console.log("data", data);
+      alert("Image uploaded successfully");
+    });
+  } else {
+    alert("Please add an Image.");
+  }
 }

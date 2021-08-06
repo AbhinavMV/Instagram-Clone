@@ -28,7 +28,7 @@ const Profile = () => {
     <div className="bg-gray-background">
       <Header />
       {user ? (
-        <div className="mx-auto max-w-screen-md">
+        <div className="mx-auto max-w-xl">
           <UserProfile user={user} />
         </div>
       ) : null}

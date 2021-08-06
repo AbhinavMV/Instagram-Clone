@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import usePhotos from "../hooks/usePhotos";
+import AddPost from "./AddPost";
 import Post from "./Post";
 
 const Timeline = () => {
@@ -10,7 +11,8 @@ const Timeline = () => {
   //tell them to create some photos
 
   return (
-    <div className="col-span-2 px-4">
+    <div className="col-span-3 md:col-span-2 px-4">
+      <AddPost />
       {!photos ? (
         <>
           <Skeleton count={4} height={500} className="mb-5 w-screen" />

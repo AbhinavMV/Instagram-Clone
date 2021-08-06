@@ -23,10 +23,10 @@ const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-md">
-      <div className="container flex justify-center">
+    <div className="grid grid-cols-3 gap-4 justify-between mx-2">
+      <div className="justify-center">
         <img
-          className="rounded-full h-40 w-40 flex"
+          className="rounded-full w-auto h-auto"
           alt="profile"
           src={`/images/avatars/${profile.username}.jpg`}
           onError={(e) => {
@@ -38,7 +38,7 @@ const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">
           <p className="text-2xl mr-4">{profile.username}</p>
-          {user.username !== profile.username && (
+          {user.username && user.username !== profile.username && (
             <button
               onClick={handleFollowToggle}
               className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-5"
@@ -47,7 +47,7 @@ const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
             </button>
           )}
         </div>
-        <div className="container flex mt-4">
+        <div className="container hidden md:flex mt-4">
           {!profile.followers || !profile.following ? (
             <Skeleton coount={1} width={677} height={24} />
           ) : (

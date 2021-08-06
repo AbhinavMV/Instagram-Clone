@@ -11,7 +11,7 @@ const ProtectedRoutes = ({ user, children, ...rest }) => {
           return children;
         }
         if (!user) {
-          return <Redirect to={{ pathname: ROUTES, state: { from: location } }} />;
+          return <Redirect to={{ pathname: ROUTES.LOGIN, state: { from: location } }} />;
         }
         return null;
       }}
