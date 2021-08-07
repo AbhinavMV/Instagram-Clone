@@ -34,31 +34,55 @@ const AddPost = () => {
     <form onSubmit={handleSubmit} className="w-full mb-4 flex flex-col items-center px-1">
       {/* <input type="text" className="w-full mx-auto h-20 rounded" aria-multiline="true" /> */}
       <div className="flex w-full">{image && <img alt="" id="preview" className="mb-2" />}</div>
-      <div className="w-full flex items-center">
+      <div className="w-full flex items-center border rounded">
         <textarea
-          className="w-full mx-auto h-20 resize-none border rounded-md text-md cursor-text"
+          className="w-full mx-auto h-20 resize-none border-l-8 border-white rounded-md text-md cursor-text pr-10"
           value={caption}
           placeholder="Caption..."
           onChange={(e) => setCaption(e.target.value)}
           ref={userInput}
         />
         <div className="flex flex-col justify-evenly mx-2">
-          <label htmlFor="image" className="m-1 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {!image ? (
+            <label htmlFor="image" className="m-1 cursor-pointer">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+            </label>
+          ) : (
+            <button
+              onClick={(e) => {
+                setImage(null);
+                window.scroll(0, 0);
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-          </label>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 ml-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </button>
+          )}
           <input
             type="file"
             accept="image/x-png,image/jpeg"
@@ -71,7 +95,7 @@ const AddPost = () => {
             id="post-button"
             type="submit"
             className="disabled:opacity-20 m-1"
-            disabled={!image}
+            disabled={!image || !caption}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
