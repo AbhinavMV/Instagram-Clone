@@ -10,7 +10,7 @@ const Header = ({ username }) => {
             src={`/images/avatars/${username}.jpg`}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "/images/src/default.png";
+              e.target.src = "/images/avatars/default.png";
             }}
             alt=""
           />

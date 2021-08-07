@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { uploadImageToFirebase } from "../services/firebase";
+import UserContext from "../context/user";
 
 const AddPost = () => {
   const [image, setImage] = useState(null);
   const [caption, setCaption] = useState("");
   const userInput = useRef(null);
+  const user = useContext(UserContext);
   const onImageChange = (e) => {
     const reader = new FileReader();
     let file = e.target.files[0];
@@ -23,7 +25,9 @@ const AddPost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    uploadImageToFirebase(image);
+    uploadImageToFirebase(image, caption, user.userId);
+    setImage(null);
+    setCaption("");
   };
 
   return (

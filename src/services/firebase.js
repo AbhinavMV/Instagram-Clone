@@ -1,5 +1,6 @@
 import { firebase, FieldValue, storage } from "../lib/firebase";
 import shortid from "shortid";
+import { imagePath } from "../constants/paths";
 
 export async function doesUsernameExists(username) {
   const result = await firebase
@@ -106,14 +107,28 @@ export async function followToggle(
   await updateFollowedUserFollowersList(profileDocId, userId, isFollowingProfile);
 }
 
-export async function uploadImageToFirebase(image) {
+export async function uploadImageToFirebase(image, caption, userId) {
   if (image) {
     const storageRef = storage.ref();
-    const imageRef = storageRef.child(`${shortid.generate()}-${image.name}`);
-    imageRef.put(image).then((data) => {
-      console.log("data", data);
-      alert("Image uploaded successfully");
+    const imageName = `${shortid.generate()}-${image.name}`;
+    const imageRef = storageRef.child(imageName);
+    imageRef.put(image).then(async () => {
+      await firebase
+        .firestore()
+        .collection("photos")
+        .add({
+          caption,
+          comments: [],
+          dateCreated: Date.now(),
+          imageSrc: imagePath(imageName),
+          likes: [],
+          photoId: imageName,
+          userId,
+          userLatitude: null,
+          userLongitude: null,
+        });
     });
+    alert("Image uploaded successfully");
   } else {
     alert("Please add an Image.");
   }
