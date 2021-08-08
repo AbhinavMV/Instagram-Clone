@@ -1,20 +1,20 @@
 import PropTypes from "prop-types";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import UserContext from "../../context/user";
 
 import useUser from "../../hooks/useUser";
-import { followToggle } from "../../services/firebase";
+import { followToggle, updateUserProfilePhoto } from "../../services/firebase";
 
 const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
   const { user } = useUser();
-  const u = useContext(UserContext);
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+
   useEffect(() => {
     setIsFollowingProfile(profile.followers.includes(user.userId));
   }, [profile.followers, user.userId]);
+
   const handleFollowToggle = async () => {
-    console.log(u);
     setIsFollowingProfile(!isFollowingProfile);
     setFollowerCount({ followerCount: isFollowingProfile ? followerCount - 1 : followerCount + 1 });
     console.log(isFollowingProfile);
@@ -22,18 +22,68 @@ const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
     // setIsFollowingProfile({ profile: response });
   };
 
+  const onProfileChange = (e) => {
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    if (file) {
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setProfilePhoto(file);
+          updateUserProfilePhoto(file, user.userId, user.docId);
+          document.getElementById("profile").src = reader.result;
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    } else {
+      setProfilePhoto(null);
+    }
+  };
+
   return (
     <div className="grid grid-cols-3 gap-4 justify-between mx-2">
-      <div className="justify-center">
-        <img
-          className="rounded-full w-auto h-auto"
-          alt="profile"
-          src={`/images/avatars/${profile.username}.jpg`}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "/images/avatars/default.png";
-          }}
-        />
+      <div className="justify-center relative group">
+        {user.photoURL ? (
+          <img
+            className="rounded-full w-24 h-24 md:w-40 md:h-40 flex object-cover blur-sm"
+            alt="profile"
+            id="profile"
+            src={user?.photoURL}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/images/avatars/default.png";
+            }}
+          />
+        ) : (
+          <Skeleton count="1" className="rounded-full w-24 h-24 md:w-40 md:h-40 flex" />
+        )}
+        <div className="absolute bottom-0 rounded-full left-0 bg-gray-200 z-10 w-24 h-24 md:w-40 md:h-40 justify-evenly items-center bg-black-faded group-hover:flex hidden">
+          <label
+            htmlFor="profilePhoto"
+            className="flex items-center text-white font-bold cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="evenodd"
+                strokeLinejoin="evenodd"
+                strokeWidth={2}
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </label>
+          <input
+            type="file"
+            accept="image/x-png,image/jpeg"
+            id="profilePhoto"
+            className="hidden"
+            onChange={onProfileChange}
+          />
+        </div>
       </div>
       <div className="flex items-center justify-center flex-col col-span-2">
         <div className="container flex items-center">

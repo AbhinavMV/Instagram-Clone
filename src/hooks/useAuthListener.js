@@ -8,7 +8,6 @@ const useAuthListener = () => {
   useEffect(() => {
     const listener = firebase.auth().onAuthStateChanged(async (authUser) => {
       if (authUser) {
-        console.log(authUser);
         const [user] = await getUserByUserId(authUser.uid);
         localStorage.setItem("authUser", JSON.stringify(user));
         setUser(user);

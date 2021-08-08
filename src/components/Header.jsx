@@ -69,8 +69,8 @@ const Header = () => {
                   <Link to={`/p/${user.username}`}>
                     {
                       <img
-                        className="rounded-full h-7 w-7 flex"
-                        src={`/images/avatars/${user.username}.jpg`}
+                        className="rounded-full h-7 w-7 flex object-cover border bg-blend-darken"
+                        src={user?.photoURL}
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = "/images/avatars/default.png";

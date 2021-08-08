@@ -1,6 +1,6 @@
 import { firebase, FieldValue, storage } from "../lib/firebase";
 import shortid from "shortid";
-import { imagePath } from "../constants/paths";
+import { avatarPath, imagePath } from "../constants/paths";
 
 export async function doesUsernameExists(username) {
   const result = await firebase
@@ -132,4 +132,52 @@ export async function uploadImageToFirebase(image, caption, userId) {
   } else {
     alert("Please add an Image.");
   }
+}
+
+export async function updateUserProfilePhoto(image, userId, docId) {
+  if (image) {
+    const storageRef = storage.ref();
+    const imageName = `${userId}`;
+    const imageRef = storageRef.child(`avatars/${imageName}`);
+    imageRef.put(image).then(async () => {
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(docId)
+        .update({ photoURL: avatarPath(imageName) });
+      alert("Profile photo updated!");
+    });
+  } else {
+    alert("Please add an image");
+  }
+}
+
+export async function getAllFollowingUsersData(followingList) {
+  const result = await firebase
+    .firestore()
+    .collection("users")
+    .where("userId", "in", followingList)
+    .get();
+  return result.docs.map((user) => ({
+    username: user.get("username"),
+    photoURL: user.get("photoURL"),
+    userId: user.get("userId"),
+  }));
+}
+
+export async function getCurrUserMessagesFromFirebase(currUserId, loggedInUserId, setMessages) {
+  const ids = [currUserId, loggedInUserId];
+  firebase
+    .firestore()
+    .collection("messages")
+    .where("fromId", "in", ids)
+    .limit(100)
+    .onSnapshot((messagesSnapshot) => {
+      const conversations = [];
+      messagesSnapshot.forEach((message) => {
+        if (ids.includes(message.data().toId))
+          conversations.push({ ...message.data(), docId: message.id });
+      });
+      setMessages({ messages: conversations });
+    });
 }

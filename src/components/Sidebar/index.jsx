@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   return (
     <div className="hidden md:block p-4">
-      <User username={user.username} fullName={user.fullName} />
+      <User username={user.username} fullName={user.fullName} photoURL={user.photoURL} />
       <Suggestions userId={user.userId} following={user.following} loggedInUserDocId={user.docId} />
     </div>
   );
