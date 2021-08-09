@@ -2,9 +2,11 @@ import Skeleton from "react-loading-skeleton";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const FollowersList = ({ user, followersList, setCurrUser }) => {
+const FollowersList = ({ user, currUser, followersList, setCurrUser }) => {
   return followersList ? (
-    <div className="col-span-1 container">
+    <div
+      className={`container ${currUser.userId ? "hidden md:block" : "col-span-3 md:col-span-1 "}`}
+    >
       <div className="w-full h-8 text-lg text-center font-bold">{user.username}</div>
       <div className="overflow-y-auto" style={{ height: "74vh" }}>
         {followersList.map((user) => (

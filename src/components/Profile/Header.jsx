@@ -8,7 +8,7 @@ import { followToggle, updateUserProfilePhoto } from "../../services/firebase";
 const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
   const { user } = useUser();
   const [isFollowingProfile, setIsFollowingProfile] = useState(false);
-  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [, setProfilePhoto] = useState(null);
 
   useEffect(() => {
     setIsFollowingProfile(profile.followers.includes(user.userId));
@@ -17,7 +17,6 @@ const Header = ({ photosCount, profile, followerCount, setFollowerCount }) => {
   const handleFollowToggle = async () => {
     setIsFollowingProfile(!isFollowingProfile);
     setFollowerCount({ followerCount: isFollowingProfile ? followerCount - 1 : followerCount + 1 });
-    console.log(isFollowingProfile);
     await followToggle(profile.docId, profile.userId, user.docId, user.userId, isFollowingProfile);
     // setIsFollowingProfile({ profile: response });
   };

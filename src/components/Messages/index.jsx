@@ -37,12 +37,17 @@ const Messages = () => {
       className="container mx-auto max-w-screen-md border grid divide-x grid-cols-3 min-h-full"
       style={{ height: "80vh" }}
     >
-      <FollowersList user={loggedInUser} followersList={followersList} setCurrUser={dispatch} />
+      <FollowersList
+        user={loggedInUser}
+        currUser={currUser}
+        followersList={followersList}
+        setCurrUser={dispatch}
+      />
       <UserMessages
         messages={messages}
         user={loggedInUser}
         currUser={currUser}
-        setMessages={dispatch}
+        setState={dispatch}
       />
     </div>
   );

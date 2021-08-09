@@ -173,18 +173,19 @@ export async function getCurrUserMessagesFromFirebase(currUserId, loggedInUserId
     .collection("messages")
     .where("fromId", "in", ids)
     .limit(100)
+    .orderBy("createdAt", "asc")
     .onSnapshot((messagesSnapshot) => {
       const conversations = [];
       messagesSnapshot.forEach((message) => {
         if (ids.includes(message.data().toId))
           conversations.push({ ...message.data(), docId: message.id });
       });
-      setMessages({ messages: conversations.sort((a, b) => a.createdAt - b.createdAt) });
+      setMessages({ messages: conversations });
     });
 }
 
-export const addMessage = (msgObj) => {
-  firebase
+export const addMessage = async (msgObj) => {
+  await firebase
     .firestore()
     .collection("messages")
     .add({
