@@ -70,7 +70,7 @@ const Header = () => {
                     {
                       <img
                         className="rounded-full h-7 w-7 flex object-cover border bg-blend-darken"
-                        src={user?.photoURL}
+                        src={user.photoURL ? user.photoURL : "/images/avatars/default.png"}
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = "/images/avatars/default.png";

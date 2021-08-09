@@ -10,8 +10,8 @@ const User = ({ fullName, username, photoURL }) =>
       <div className="grid grid-cols-4 gap-4 mb-6 items-center">
         <div className="flex items-center justify-between col-span-1">
           <img
-            className="rounded-full h-12 w-14 flex object-cover"
-            src={photoURL}
+            className="rounded-full h-10 w-14 flex object-cover"
+            src={photoURL ? photoURL : "/images/avatars/default.png"}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/images/avatars/default.png";

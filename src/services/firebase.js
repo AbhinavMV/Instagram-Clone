@@ -162,6 +162,7 @@ export async function getAllFollowingUsersData(followingList) {
     username: user.get("username"),
     photoURL: user.get("photoURL"),
     userId: user.get("userId"),
+    fullName: user.get("fullName"),
   }));
 }
 
@@ -178,6 +179,16 @@ export async function getCurrUserMessagesFromFirebase(currUserId, loggedInUserId
         if (ids.includes(message.data().toId))
           conversations.push({ ...message.data(), docId: message.id });
       });
-      setMessages({ messages: conversations });
+      setMessages({ messages: conversations.sort((a, b) => a.createdAt - b.createdAt) });
     });
 }
+
+export const addMessage = (msgObj) => {
+  firebase
+    .firestore()
+    .collection("messages")
+    .add({
+      ...msgObj,
+      createdAt: FieldValue.serverTimestamp(),
+    });
+};

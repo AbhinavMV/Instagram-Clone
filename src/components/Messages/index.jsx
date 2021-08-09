@@ -26,11 +26,7 @@ const Messages = () => {
   useEffect(() => {
     async function getUserMessages() {
       if (currUser.userId) {
-        const response = await getCurrUserMessagesFromFirebase(
-          currUser.userId,
-          loggedInUser.userId,
-          dispatch
-        );
+        await getCurrUserMessagesFromFirebase(currUser.userId, loggedInUser.userId, dispatch);
       }
     }
     if (currUser.userId) getUserMessages();
@@ -42,7 +38,12 @@ const Messages = () => {
       style={{ height: "80vh" }}
     >
       <FollowersList user={loggedInUser} followersList={followersList} setCurrUser={dispatch} />
-      <UserMessages messages={messages} user={loggedInUser} currUser={currUser} />
+      <UserMessages
+        messages={messages}
+        user={loggedInUser}
+        currUser={currUser}
+        setMessages={dispatch}
+      />
     </div>
   );
 };
