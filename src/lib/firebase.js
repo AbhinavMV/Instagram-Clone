@@ -6,12 +6,12 @@ import "firebase/storage";
 // import { seedDatabase } from "../seed";
 
 const config = {
-  apiKey: process.env.apiKey,
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "instagram-clone-336bb.firebaseapp.com",
   projectId: "instagram-clone-336bb",
   storageBucket: "instagram-clone-336bb.appspot.com",
-  messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId,
+  messagingSenderId: process.env.REACT_APP_MS_ID,
+  appId: process.env.REACT_APP_ID,
 };
 
 const firebase = Firebase.initializeApp(config);
